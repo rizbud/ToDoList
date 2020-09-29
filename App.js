@@ -1,4 +1,5 @@
 import React from 'react'
+import {StatusBar} from 'react-native'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import storeConfig from './app/redux/store'
@@ -10,11 +11,12 @@ const { store, persistor } = storeConfig()
 const App = () => {
   return (
     <Provider store={store}>
-      <PersistGate Loading={null} persistor={persistor}>
+      <PersistGate Loading={<Loading />} persistor={persistor}>
+        <StatusBar backgroundColor="#1f38de" barStyle="light-content" />
         <Navigation />
       </PersistGate>
     </Provider>
   )
 }
 
-export default App;
+export default App

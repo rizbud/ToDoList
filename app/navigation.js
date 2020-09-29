@@ -18,7 +18,22 @@ const Navigation = () => {
             headerShown: false
           }}
         />
-        <Stack.Screen name="Add" component={Add} />
+        <Stack.Screen
+          name="Add"
+          component={Add}
+          options={{
+            headerTitle: 'Add Schedule',
+            headerStyle: {
+              backgroundColor: '#1f38de'
+            },
+            headerTitleStyle: {
+              color: '#fff',
+              marginLeft: -15,
+              fontSize: 22
+            },
+            headerTintColor: '#fff'
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )

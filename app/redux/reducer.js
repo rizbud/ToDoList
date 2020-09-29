@@ -3,16 +3,27 @@ const todo = {
 }
 
 const reducer = (state = todo, action) => {
-  if(action.type === "ADD") {
-    return {
-      ...state,
-      list: [
-        ...state.list,
-        action.value
-      ]
-    }
+  switch(action.type) {
+    case 'ADD':
+      console.log("value", action.value)
+      return {
+        ...state,
+        list: [
+          ...state.list,
+          action.value
+        ]
+      }
+    case 'DELETE':
+      return {
+        ...state,
+        list: [
+          ...state.list.slice(0, action.index),
+          ...state.list.slice(action.index + 1)
+        ]
+      }
+    default:
+      return state
   }
-  return state
 }
 
 export default reducer
