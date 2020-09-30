@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {
   SafeAreaView,
   FlatList,
@@ -8,6 +8,7 @@ import {
   Text
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather'
+import Modal from 'react-native-modal'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { remove } from '../redux/action'
@@ -16,6 +17,8 @@ import { styles } from './styles'
 
 const Home = (props) => {
   const {navigation} = props
+  const [modal, setModal] = useState(false)
+  const [data, setData] = useState({})
   const list = useSelector(state => state.list)
   const dispatch = useDispatch()
 
@@ -23,28 +26,61 @@ const Home = (props) => {
     dispatch(remove(index))
   }
 
+  const onClick = (item) => {
+    setData(item)
+    setModal(true)
+  }
+
   const List = ({item, index}) => {
     return (
-      <View style={styles.card}>
-        <Text style={styles.title}>{item.title}</Text>
+      <TouchableOpacity activeOpacity={0.9} onPress={() => onClick(item)} style={styles.card}>
+        <View style={styles.left}>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.date}>{item.date + '     ' + item.time}</Text>
+        </View>
         <TouchableOpacity style={styles.delete} onPress={() => deleteList(index)}>
-          <Icon name='trash-2' size={20} color='#000' style={{alignSelf: 'flex-end'}} />
+          <Icon name='trash-2' size={25} color='#000' style={{alignSelf: 'flex-end'}} />
         </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
     )
   }
 
   return (
     <SafeAreaView style={styles.container}>
+      <Modal
+        isVisible={modal}
+        onBackdropPress={() => setModal(false)}
+        onBackButtonPress={() => setModal(false)}
+        style={styles.modal}
+        backdropTransitionOutTiming={100}
+        onSwipeComplete={() => setModal(false)}
+        swipeDirection={['down']}
+      >
+        <TouchableOpacity onPress={() => setModal(false)} style={styles.close} activeOpacity={0.8}>
+          <Icon name='x-circle' size={30} color='#fff' />
+        </TouchableOpacity>
+        <View style={styles.modalContainer}>
+          <View style={{ flexDirection: 'row' }}>
+            <View style={{flex: 1}}>
+              <Text style={styles.titleModal}>{data.title}</Text>
+              <Text style={styles.date}>{data.date + '     ' + data.time}</Text>
+            </View>
+            <TouchableOpacity style={styles.delete} onPress={() => deleteList(index)}>
+              <Icon name='trash-2' size={25} color='#000' style={{alignSelf: 'flex-end'}} />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.desc}>{data.desc}</Text>
+        </View>
+      </Modal>
       <View style={styles.header}>
         <View style={styles.headerBackground}></View>
         <Text style={styles.headerTitle}>My Schedule</Text>
       </View>
       <FlatList 
-        style={{marginBottom: 10}}
+        contentContainerStyle={{paddingVertical: 10}}
         data={list}
         keyExtractor={(item, index) => index.toString()}
-        ListEmptyComponent={<Text style={{alignSelf: 'center'}}>Tidak ada data.</Text>}
+        ListEmptyComponent={<Text style={{textAlign: 'center'}}>No schedule.{'\n'}Your schedule will be appear here.</Text>}
         renderItem={List}
       />
       <TouchableOpacity style={styles.addBtn} activeOpacity={0.8} onPress={() => navigation.navigate('Add')}>
