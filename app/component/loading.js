@@ -1,6 +1,9 @@
 import React from 'react'
 import { View, ActivityIndicator, StyleSheet } from 'react-native'
 
+// styles
+import styles from './styles/loadingStyle'
+
 const Loading = () => {
   return (
     <View style={styles.wrap}>
@@ -8,13 +11,5 @@ const Loading = () => {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  wrap: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-})
 
 export default Loading
