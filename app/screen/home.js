@@ -13,7 +13,8 @@ import Modal from 'react-native-modal'
 import { useSelector, useDispatch } from 'react-redux'
 import { remove } from '../redux/action'
 
-import { styles } from './styles'
+import styles from './styles/homeStyle'
+import { apply } from '../themes/OsmiProvider'
 
 const Home = (props) => {
   const {navigation} = props
@@ -39,7 +40,7 @@ const Home = (props) => {
           <Text style={styles.date}>{item.date + '     ' + item.time}</Text>
         </View>
         <TouchableOpacity style={styles.delete} onPress={() => deleteList(index)}>
-          <Icon name='trash-2' size={25} color='#000' style={{alignSelf: 'flex-end'}} />
+          <Icon name='trash-2' size={25} color='#000' style={apply('self-end')} />
         </TouchableOpacity>
       </TouchableOpacity>
     )
@@ -57,16 +58,16 @@ const Home = (props) => {
         swipeDirection={['down']}
       >
         <TouchableOpacity onPress={() => setModal(false)} style={styles.close} activeOpacity={0.8}>
-          <Icon name='x-circle' size={30} color='#fff' />
+          <Icon name='x-circle' size={30} color={apply('white')} />
         </TouchableOpacity>
         <View style={styles.modalContainer}>
-          <View style={{ flexDirection: 'row' }}>
-            <View style={{flex: 1}}>
+          <View style={apply('row')}>
+            <View style={apply('flex')}>
               <Text style={styles.titleModal}>{data.title}</Text>
               <Text style={styles.date}>{data.date + '     ' + data.time}</Text>
             </View>
             <TouchableOpacity style={styles.delete} onPress={() => deleteList(index)}>
-              <Icon name='trash-2' size={25} color='#000' style={{alignSelf: 'flex-end'}} />
+              <Icon name='trash-2' size={25} color={apply('black')} style={apply('self-end')} />
             </TouchableOpacity>
           </View>
           <Text style={styles.desc}>{data.desc}</Text>
